@@ -20,7 +20,7 @@ function Example() {
   const { isLoading, error, data } = useQuery({
     queryKey: ['repoData'],
     queryFn: () =>
-      fetch('http://localhost:3001/api/data').then((res) =>
+      fetch('http://localhost:3001/api/cities').then((res) =>
         res.json(),
       ),
   })
@@ -28,7 +28,7 @@ function Example() {
   if (error) return 'An error has occurred: ' + error.message
   return (
     <div>
-      <h1>{data.message}</h1>
+      <h1>Cities in Finland: {data.length}</h1>
     </div>
   )
 }
