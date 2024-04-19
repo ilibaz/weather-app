@@ -1,0 +1,7 @@
+
+- how to set min-width with tailwind to 320px
+
+<div className="min-w-[320px]">
+  {/* Your content here */}
+</div>
+

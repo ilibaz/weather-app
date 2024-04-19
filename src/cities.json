@@ -2937,17 +2937,6 @@
     "population_proper": "3658"
   }, 
   {
-    "city": "Seinäjoki", 
-    "lat": "62.5667", 
-    "lng": "23.0667", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Etelä-Pohjanmaa", 
-    "capital": "", 
-    "population": "3653", 
-    "population_proper": "3653"
-  }, 
-  {
     "city": "Pello", 
     "lat": "66.7750", 
     "lng": "23.9667", 
@@ -4433,17 +4422,6 @@
     "population_proper": ""
   }, 
   {
-    "city": "Juva", 
-    "lat": "60.8667", 
-    "lng": "23.0000", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Varsinais-Suomi", 
-    "capital": "minor", 
-    "population": "", 
-    "population_proper": ""
-  }, 
-  {
     "city": "Siltakylä", 
     "lat": "60.4958", 
     "lng": "26.7097", 
@@ -4582,17 +4560,6 @@
     "country": "Finland", 
     "iso2": "FI", 
     "admin_name": "Pohjois-Pohjanmaa", 
-    "capital": "minor", 
-    "population": "", 
-    "population_proper": ""
-  }, 
-  {
-    "city": "Polvijärvi", 
-    "lat": "62.4167", 
-    "lng": "28.3333", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Etelä-Savo", 
     "capital": "minor", 
     "population": "", 
     "population_proper": ""

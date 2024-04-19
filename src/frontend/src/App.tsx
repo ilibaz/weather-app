@@ -1,35 +1,23 @@
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
 } from '@tanstack/react-query'
-import './App.css'
+import CitiesList from './components/CitiesList'
+import CitySearch from './components/CitySearch'
 
 const queryClient = new QueryClient()
 
 function App() {
 
+  const onSearch = (city: string) => {
+    console.log(city);
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Example />
+      <CitySearch onSearch={onSearch} />
+      <CitiesList />
     </QueryClientProvider>
-  )
-}
-
-function Example() {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () =>
-      fetch('http://localhost:3001/api/cities').then((res) =>
-        res.json(),
-      ),
-  })
-  if (isLoading) return 'Loading...'
-  if (error) return 'An error has occurred: ' + error.message
-  return (
-    <div>
-      <h1>Cities in Finland: {data.length}</h1>
-    </div>
   )
 }
 
