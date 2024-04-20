@@ -1,5 +1,5 @@
+import { City } from "../context/CitiesContext";
 import { useWeather } from "../context/WeatherContext";
-import { City } from "./CitiesList";
 
 interface CityCardProps {
     city: City;

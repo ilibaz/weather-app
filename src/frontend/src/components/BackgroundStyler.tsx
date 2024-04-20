@@ -29,7 +29,7 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
     }, [weatherDescription]);
 
     return (
-        <div className={`min-h-screen bg-gradient-to-br ${backgroundGradient}`}>
+        <div className={`container-with-scrollbar min-h-screen bg-gradient-to-br ${backgroundGradient}`}>
             {children}
         </div>
     );

@@ -1,19 +1,12 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent } from 'react';
+import { useCities } from '../context/CitiesContext';
 
-interface TextSearchProps {
-    onSearch: (searchTerm: string) => void;
-}
-
-function CitySearch({ onSearch }: TextSearchProps) {
-    const [searchTerm, setSearchTerm] = useState<string>('');
+function CitySearch() {
+    const { searchTerm, setSearchTerm } = useCities();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
-
-    useEffect(() => {
-        onSearch(searchTerm);
-    }, [searchTerm]);
 
     return (
         <div className="sticky top-[-1px] z-50">

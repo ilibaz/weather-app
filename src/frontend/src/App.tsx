@@ -6,23 +6,23 @@ import CitiesList from './components/CitiesList'
 import CitySearch from './components/CitySearch'
 import BackgroundStyler from './components/BackgroundStyler'
 import { WeatherProvider } from './context/WeatherContext'
+import { SearchProvider } from './context/CitiesContext'
 
 const queryClient = new QueryClient()
 
 function App() {
 
-  const onSearch = (city: string) => {
-    console.log(city);
-  }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <WeatherProvider>
-        <BackgroundStyler>
-          <CitySearch onSearch={onSearch} />
-          <CitiesList />
-        </BackgroundStyler>
-      </WeatherProvider>
+      <SearchProvider>
+        <WeatherProvider>
+          <BackgroundStyler>
+            <CitySearch />
+            <CitiesList />
+          </BackgroundStyler>
+        </WeatherProvider>
+      </SearchProvider>
     </QueryClientProvider>
   )
 }
