@@ -28,8 +28,8 @@ function CityCard({ city }: CityCardProps) {
                 style={{ backgroundColor: backgroundColor ? backgroundColor : undefined }}
             ></div>
             <div className="relative z-10">
-                <h2 className="text-gray-700 text-xl font-bold mb-2">{city.city}</h2>
-                <p className="text-gray-700">25°, 10 m/s, North</p>
+                <h2 className="text-gray-800 text-xl font-bold mb-2">{city.city}</h2>
+                <p className="text-gray-800">{city.admin_name}</p>
             </div>
         </div>
     );

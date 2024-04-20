@@ -23,6 +23,7 @@ interface CitiesContextProps {
     selectedCity?: City;
     setSearchTerm: (term: string) => void;
     setSelectedCity: (city?: City) => void;
+    resetCityAndTerm: () => void;
 }
 
 const CitiesContext = createContext<CitiesContextProps | undefined>(undefined);
@@ -68,9 +69,14 @@ export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
         setFilteredCities(filtered);
     }, [cities, searchTerm]);
 
+    const resetCityAndTerm = () => {
+        setSearchTerm('');
+        setSelectedCity(undefined);
+    }
+
     return (
         <CitiesContext.Provider
-            value={{ filteredCities, isLoading, error, searchTerm, selectedCity, setSelectedCity, setSearchTerm }}
+            value={{ filteredCities, isLoading, error, searchTerm, selectedCity, setSelectedCity, setSearchTerm, resetCityAndTerm }}
         >
             {children}
         </CitiesContext.Provider>

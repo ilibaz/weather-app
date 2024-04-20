@@ -8,28 +8,27 @@ interface BackgroundStylerProps {
 const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
     const { setBackgroundColor, weatherDescription } = useWeather();
     const [backgroundGradient, setBackgroundGradient] = useState<string>('');
+    const [additionalEffect, setAdditionalEffect] = useState<string>('');
 
     useEffect(() => {
-        let newBackgroundGradient = '';
-        let newBackgroundColor = '';
-
         if (weatherDescription === "cloudy") {
-            newBackgroundGradient = 'from-[#97d0f8] to-[#69bbf6]';
-            newBackgroundColor = '#6dc6e3';
+            setBackgroundGradient('from-[#97d0f8] to-[#69bbf6]');
+            setAdditionalEffect("radial-gradient(circle at left top, rgb(200, 200, 200) 1%, transparent 30%)");
+            setBackgroundColor('#6dc6e3');
         } else if (weatherDescription === "rain") {
-            newBackgroundGradient = 'from-[#5084e4] to-[#4872c2]';
-            newBackgroundColor = '#7d9dd9';
+            setBackgroundGradient('from-[#5084e4] to-[#4872c2]');
+            setAdditionalEffect("radial-gradient(circle at left top, rgb(25, 50, 155) 24%, transparent 100%)");
+            setBackgroundColor('#7d9dd9');
         } else if (weatherDescription === "sunny") {
-            newBackgroundGradient = 'from-[#6ad1fa] to-[#5dbce1]';
-            newBackgroundColor = '#7cb3f0';
+            setBackgroundGradient('from-[#4bb5d8] to-[#39add3]');
+            setAdditionalEffect("radial-gradient(circle at left top, rgb(255, 255, 100) 1%, transparent 30%)");
+            setBackgroundColor('#7cb3f0');
         }
-
-        setBackgroundGradient(newBackgroundGradient);
-        setBackgroundColor(newBackgroundColor);
     }, [weatherDescription]);
 
     return (
-        <div className={`container-with-scrollbar min-h-screen bg-gradient-to-br ${backgroundGradient}`}>
+        <div className={`min-h-screen bg-gradient-to-br ${backgroundGradient}`}>
+            <div className="fixed top-0 bottom-0 left-0 right-0" style={{ background: additionalEffect }}></div>
             {children}
         </div>
     );

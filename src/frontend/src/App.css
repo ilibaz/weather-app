@@ -30,10 +30,8 @@ body {
   background: transparent;
 }
 
-.container-with-scrollbar {
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.sunny {
+  background: radial-gradient(circle at center, #ffff66 10%, transparent 70%);
 }
 
 /* 
