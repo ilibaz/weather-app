@@ -1,7 +1,19 @@
 import {
     useQuery,
 } from '@tanstack/react-query'
-import CityCard, { City } from './CityCard'
+import CityCard from './CityCard'
+
+export interface City {
+    city: string;
+    lat: string;
+    lng: string;
+    country: string;
+    iso2: string;
+    admin_name: string;
+    capital: string;
+    population: string;
+    population_proper: string;
+}
 
 function CitiesList() {
     const { isLoading, error, data } = useQuery<City[]>({
@@ -21,7 +33,7 @@ function CitiesList() {
     }
 
     return (
-        <div className="min-h-screen flex justify-center items-center px-4 pb-16">
+        <div className="min-h-screen flex justify-center items-center px-4 pt-24 pb-16">
             <div className="min-w-[320px] md:w-4/5 grid grid-cols-1 gap-4">
                 {data && data.sort((a, b) => a.city.localeCompare(b.city)).map((city) =>
                     <CityCard key={"city-" + city.city} city={city} />
