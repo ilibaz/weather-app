@@ -38,7 +38,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
     const [temperature, setTemperature] = useState<number>();
     const [windSpeed, setWindSpeed] = useState<number>();
     const [windDirection, setWindDirection] = useState<string>();
-    const [weatherDescription, setWeatherDescription] = useState<WeatherDescription>("cloudy");
+    const [weatherDescription, setWeatherDescription] = useState<WeatherDescription>("sunny");
     const [backgroundColor, setBackgroundColor] = useState<string>();
 
     useEffect(() => {

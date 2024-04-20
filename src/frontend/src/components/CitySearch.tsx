@@ -1,12 +1,10 @@
 import { ChangeEvent, useState, useEffect } from 'react';
-import { useWeather } from '../context/WeatherContext';
 
 interface TextSearchProps {
     onSearch: (searchTerm: string) => void;
 }
 
 function CitySearch({ onSearch }: TextSearchProps) {
-    const { backgroundColor } = useWeather();
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,8 +16,8 @@ function CitySearch({ onSearch }: TextSearchProps) {
     }, [searchTerm]);
 
     return (
-        <div className="sticky top-0 z-50">
-            <div className="absolute inset-x-0 flex justify-center items-center backdrop-filter backdrop-blur-lg py-4">
+        <div className="sticky top-[-1px] z-50">
+            <div className="absolute inset-x-0 flex justify-center items-center backdrop-filter backdrop-blur-lg p-4">
                 <div className="relative min-w-[320px] md:w-4/5 w-full">
                     <input
                         type="text"
@@ -27,7 +25,6 @@ function CitySearch({ onSearch }: TextSearchProps) {
                         placeholder="Search for a city..."
                         value={searchTerm}
                         onChange={handleChange}
-                        style={{ backgroundColor: backgroundColor ? backgroundColor : undefined }}
                     />
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
