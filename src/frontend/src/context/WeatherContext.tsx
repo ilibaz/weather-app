@@ -1,20 +1,21 @@
-import React, { ReactNode, createContext, useContext, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { useCities } from './CitiesContext';
+import { useQuery } from '@tanstack/react-query';
 
-type WeatherDescription = "rain" | "sunny" | "cloudy";
+type WeatherDescription = 'rain' | 'sunny' | 'cloudy';
+type WindDirrection = 'North' | 'East' | 'South' | 'West';
+
+export type WeatherInfo = {
+    temperature: number;
+    windSpeed: number;
+    windDirection: WindDirrection;
+    condition: WeatherDescription;
+};
 
 interface WeatherContextProps {
-    temperature?: number;
-    windSpeed?: number;
-    windDirection?: string;
-    weatherDescription: WeatherDescription;
+    weatherInSelectedCity?: WeatherInfo;
     backgroundColor?: string;
     setBackgroundColor: (color: string) => void;
-    updateWeatherInfo: (
-        temperature: number,
-        windSpeed: number,
-        windDirection: string,
-        weatherDescription: WeatherDescription
-    ) => void;
 }
 
 const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);
@@ -32,34 +33,38 @@ interface WeatherProviderProps {
 }
 
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
-    const [temperature, setTemperature] = useState<number>();
-    const [windSpeed, setWindSpeed] = useState<number>();
-    const [windDirection, setWindDirection] = useState<string>();
-    const [weatherDescription, setWeatherDescription] = useState<WeatherDescription>("cloudy");
+    const { selectedCity } = useCities();
+    const [weatherInSelectedCity, setWeatherInSelectedCity] = useState<WeatherInfo>();
     const [backgroundColor, setBackgroundColor] = useState<string>();
 
-    const updateWeatherInfo = (
-        temperature: number,
-        windSpeed: number,
-        windDirection: string,
-        weatherDescription: WeatherDescription
-    ) => {
-        setTemperature(temperature);
-        setWindSpeed(windSpeed);
-        setWindDirection(windDirection);
-        setWeatherDescription(weatherDescription);
-    };
+    const { isLoading, data, error } = useQuery({
+        queryKey: ['cityWeather', selectedCity?.city],
+        queryFn: ({ signal }) =>
+            fetch(`http://localhost:3001/api/weather/${selectedCity?.city}`, { signal }).then((res) => {
+                if (!res.ok) {
+                    throw new Error('Failed to fetch city weather');
+                }
+                return res.json();
+            }),
+        enabled: selectedCity !== undefined,
+    });
+
+    useEffect(() => {
+        if (!isLoading && !error && data) {
+            setWeatherInSelectedCity(data);
+        }
+
+        if (error) {
+            console.error(error);
+        }
+    }, [isLoading, error, data]);
 
     return (
         <WeatherContext.Provider
             value={{
-                temperature,
-                windSpeed,
-                windDirection,
-                weatherDescription,
                 backgroundColor,
                 setBackgroundColor,
-                updateWeatherInfo,
+                weatherInSelectedCity,
             }}
         >
             {children}

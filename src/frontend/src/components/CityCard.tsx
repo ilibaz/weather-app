@@ -6,9 +6,8 @@ interface CityCardProps {
 }
 
 function CityCard({ city }: CityCardProps) {
-    const { backgroundColor } = useWeather();
-    const { selectedCity, setSelectedCity } = useCities();
-    const { setSearchTerm } = useCities();
+    const { backgroundColor, weatherInSelectedCity } = useWeather();
+    const { selectedCity, setSelectedCity, setSearchTerm } = useCities();
 
     const isSelected = selectedCity ? selectedCity.city === city.city : false;
 
@@ -28,8 +27,18 @@ function CityCard({ city }: CityCardProps) {
                 style={{ backgroundColor: backgroundColor ? backgroundColor : undefined }}
             ></div>
             <div className="relative z-10">
-                <h2 className="text-gray-800 text-xl font-bold mb-2">{city.city}</h2>
-                <p className="text-gray-800">{city.admin_name}</p>
+                <p className="mb-2">
+                    <span className="text-gray-800 text-xl font-bold">{city.city}</span>
+                    <span className="text-gray-800 text-xs"> | {city.admin_name}</span>
+                </p>
+                {isSelected && weatherInSelectedCity && (
+                    <div className="text-gray-800">
+                        <p>Temperature: {weatherInSelectedCity.temperature}°</p>
+                        <p>Wind Speed: {weatherInSelectedCity.windSpeed} m/s</p>
+                        <p>Wind Direction: {weatherInSelectedCity.windDirection}</p>
+                        <p>Condition: {weatherInSelectedCity.condition}</p>
+                    </div>
+                )}
             </div>
         </div>
     );
