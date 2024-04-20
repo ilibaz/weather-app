@@ -21,12 +21,12 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
                 setAdditionalEffect("radial-gradient(circle at left top, rgb(25, 50, 155) 24%, transparent 100%)");
                 setBackgroundColor('#7d9dd9');
             } else if (weatherInSelectedCity.condition === "sunny") {
-                setBackgroundGradient('from-[#55b5d8] to-[#39adff]');
-                setAdditionalEffect("radial-gradient(circle at left top, rgb(200, 200, 50) -15%, transparent 45%)");
+                setBackgroundGradient('from-[#1199dd] to-[#019393]');
+                setAdditionalEffect("radial-gradient(circle at left top, rgb(100, 200, 200) -15%, transparent 45%)");
                 setBackgroundColor('#7cb3f0');
             }
         } else {
-            // default colors
+            // default to sunny
             setBackgroundGradient('from-[#1199dd] to-[#019393]');
             setAdditionalEffect("radial-gradient(circle at left top, rgb(100, 200, 200) -15%, transparent 45%)");
             setBackgroundColor('#7cb3f0');
