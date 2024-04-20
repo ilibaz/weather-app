@@ -20,7 +20,9 @@ interface CitiesContextProps {
     isLoading: boolean;
     error: Error | null;
     searchTerm: string;
+    selectedCity?: City;
     setSearchTerm: (term: string) => void;
+    setSelectedCity: (city?: City) => void;
 }
 
 const CitiesContext = createContext<CitiesContextProps | undefined>(undefined);
@@ -33,13 +35,14 @@ export const useCities = () => {
     return context;
 };
 
-interface SearchProviderProps {
+interface CitiesProviderProps {
     children: ReactNode;
 }
 
-export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
+export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredCities, setFilteredCities] = useState<City[]>([]);
+    const [selectedCity, setSelectedCity] = useState<City>();
 
     const { isLoading, error, data: cities } = useQuery<City[]>({
         queryKey: ['cities'],
@@ -67,7 +70,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
 
     return (
         <CitiesContext.Provider
-            value={{ filteredCities, isLoading, error, searchTerm, setSearchTerm }}
+            value={{ filteredCities, isLoading, error, searchTerm, selectedCity, setSelectedCity, setSearchTerm }}
         >
             {children}
         </CitiesContext.Provider>

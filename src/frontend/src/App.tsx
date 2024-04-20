@@ -6,7 +6,7 @@ import CitiesList from './components/CitiesList'
 import CitySearch from './components/CitySearch'
 import BackgroundStyler from './components/BackgroundStyler'
 import { WeatherProvider } from './context/WeatherContext'
-import { SearchProvider } from './context/CitiesContext'
+import { CitiesProvider } from './context/CitiesContext'
 
 const queryClient = new QueryClient()
 
@@ -15,14 +15,14 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SearchProvider>
+      <CitiesProvider>
         <WeatherProvider>
           <BackgroundStyler>
             <CitySearch />
             <CitiesList />
           </BackgroundStyler>
         </WeatherProvider>
-      </SearchProvider>
+      </CitiesProvider>
     </QueryClientProvider>
   )
 }

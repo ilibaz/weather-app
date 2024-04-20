@@ -1,4 +1,4 @@
-import { City } from "../context/CitiesContext";
+import { City, useCities } from "../context/CitiesContext";
 import { useWeather } from "../context/WeatherContext";
 
 interface CityCardProps {
@@ -6,10 +6,22 @@ interface CityCardProps {
 }
 
 function CityCard({ city }: CityCardProps) {
-    const { backgroundColor, setCityName } = useWeather();
+    const { backgroundColor } = useWeather();
+    const { selectedCity, setSelectedCity } = useCities();
+    const { setSearchTerm } = useCities();
+
+    const isSelected = selectedCity ? selectedCity.city === city.city : false;
+
+    const handleCardClick = () => {
+        setSelectedCity(city);
+        setSearchTerm(city.city);
+    };
 
     return (
-        <div className="w-full relative rounded-lg shadow-lg p-4 cursor-pointer" onClick={() => setCityName(city.city)}>
+        <div
+            className={`w-full relative rounded-lg shadow-lg p-4 cursor-pointer ${isSelected ? 'h-40' : 'h-20'}`}
+            onClick={handleCardClick}
+        >
             <div className="absolute inset-0 backdrop-filter backdrop-blur-lg rounded-lg"></div>
             <div
                 className="absolute inset-0 bg-gray-200 opacity-50 rounded-lg"

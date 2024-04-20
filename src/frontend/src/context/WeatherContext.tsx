@@ -1,15 +1,13 @@
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useState } from 'react';
 
 type WeatherDescription = "rain" | "sunny" | "cloudy";
 
 interface WeatherContextProps {
-    cityName?: string;
     temperature?: number;
     windSpeed?: number;
     windDirection?: string;
     weatherDescription: WeatherDescription;
     backgroundColor?: string;
-    setCityName: (cityName: string) => void;
     setBackgroundColor: (color: string) => void;
     updateWeatherInfo: (
         temperature: number,
@@ -34,16 +32,11 @@ interface WeatherProviderProps {
 }
 
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
-    const [cityName, setCityName] = useState<string>();
     const [temperature, setTemperature] = useState<number>();
     const [windSpeed, setWindSpeed] = useState<number>();
     const [windDirection, setWindDirection] = useState<string>();
     const [weatherDescription, setWeatherDescription] = useState<WeatherDescription>("sunny");
     const [backgroundColor, setBackgroundColor] = useState<string>();
-
-    useEffect(() => {
-        console.log(cityName);
-    }, [cityName]);
 
     const updateWeatherInfo = (
         temperature: number,
@@ -60,14 +53,12 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
     return (
         <WeatherContext.Provider
             value={{
-                cityName,
                 temperature,
                 windSpeed,
                 windDirection,
                 weatherDescription,
                 backgroundColor,
                 setBackgroundColor,
-                setCityName,
                 updateWeatherInfo,
             }}
         >

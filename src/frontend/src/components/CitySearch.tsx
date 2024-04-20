@@ -2,10 +2,11 @@ import { ChangeEvent } from 'react';
 import { useCities } from '../context/CitiesContext';
 
 function CitySearch() {
-    const { searchTerm, setSearchTerm } = useCities();
+    const { searchTerm, setSearchTerm, setSelectedCity } = useCities();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
+        setSelectedCity(undefined);
     };
 
     return (
@@ -15,7 +16,7 @@ function CitySearch() {
                     <input
                         type="text"
                         className="bg-white bg-opacity-25 rounded-lg py-2 px-4 w-full outline-none placeholder-gray-600 text-gray-700"
-                        placeholder="Search for a city..."
+                        placeholder="Start by searching for a city..."
                         value={searchTerm}
                         onChange={handleChange}
                     />
