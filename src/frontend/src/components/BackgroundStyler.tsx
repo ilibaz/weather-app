@@ -27,8 +27,8 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
     }, [weatherDescription]);
 
     return (
-        <div className={`min-h-screen bg-gradient-to-br ${backgroundGradient}`}>
-            <div className="fixed top-0 bottom-0 left-0 right-0" style={{ background: additionalEffect }}></div>
+        <div className={`min-h-screen bg-gradient-to-br transition-all duration-500 ${backgroundGradient}`}>
+            <div className="fixed top-0 bottom-0 left-0 right-0 transition-all duration-500" style={{ background: additionalEffect }}></div>
             {children}
         </div>
     );
