@@ -36,7 +36,7 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
             setAdditionalEffect("radial-gradient(circle at left top, rgb(100, 200, 200) -15%, transparent 45%)");
             setBackgroundColor('#7cb3f0');
         }
-    }, [weatherInSelectedCity]);
+    }, [setBackgroundColor, weatherInSelectedCity]);
 
     return (
         <div className={`min-h-screen bg-gradient-to-br transition-all duration-5000 ${backgroundGradient}`} style={{ transition: 'background 1s linear' }}>

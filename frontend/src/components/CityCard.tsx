@@ -84,6 +84,6 @@ function CityCard({ city }: CityCardProps) {
             </div>
         </div>
     );
-};
+}
 
 export default CityCard;

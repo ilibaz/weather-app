@@ -32,6 +32,14 @@ app.get('/api/cities', (req: Request, res: Response) => {
     res.json(citiesData);
 });
 
+// Serve static files from the '../frontend/dist' directory in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'dist')));
+    app.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', '..', 'frontend', 'dist'));
+    });
+}
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
