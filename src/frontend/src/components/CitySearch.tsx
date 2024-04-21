@@ -12,7 +12,7 @@ function CitySearch() {
     return (
         <div className="sticky top-[-1px] z-50">
             <div className="absolute inset-x-0 flex justify-center items-center backdrop-filter backdrop-blur-lg p-4 shadow-lg">
-                <div className="relative min-w-[320px] md:w-4/5 w-full">
+                <div className="relative min-w-[300px] md:w-4/5 w-full">
                     <input
                         type="text"
                         className="bg-white bg-opacity-25 rounded-lg py-2 px-4 w-full outline-none font-bold placeholder-gray-800 text-gray-800"

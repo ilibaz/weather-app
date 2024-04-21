@@ -31,6 +31,102 @@ body {
   background: radial-gradient(circle at center, #ffff66 10%, transparent 70%);
 }
 
+.compass {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 2px);
+  width: 4px;
+  height: 30px;
+  background-color: red;
+  transform-origin: center center;
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 15px solid red;
+  transform: translateX(-50%) translateY(-3px)
+}
+
+.arrow.north {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.arrow.north-east {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.arrow.east {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.arrow.south-east {
+  transform: translateY(-50%) rotate(135deg);
+}
+
+.arrow.south {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.arrow.south-west {
+  transform: translateY(-50%) rotate(225deg);
+}
+
+.arrow.west {
+  transform: translateY(-50%) rotate(270deg);
+}
+
+.arrow.north-west {
+  transform: translateY(-50%) rotate(315deg);
+}
+
+.compass-north,
+.compass-south {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+}
+
+.compass-north {
+  top: calc(-65% - 5px)
+}
+
+.compass-south {
+  bottom: calc(-65% - 5px)
+}
+
+.compass-west,
+.compass-east {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+}
+
+.compass-west {
+  left: calc(-65% - 1px)
+}
+
+.compass-east {
+  right: calc(-65% + 3px)
+}
+
 /* 
 @media (prefers-color-scheme: light) {
   :root {

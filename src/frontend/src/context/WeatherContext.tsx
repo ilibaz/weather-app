@@ -2,8 +2,8 @@ import React, { ReactNode, createContext, useContext, useEffect, useState } from
 import { useCities } from './CitiesContext';
 import { useQuery } from '@tanstack/react-query';
 
-type WeatherDescription = 'rain' | 'sunny' | 'cloudy';
-type WindDirrection = 'North' | 'East' | 'South' | 'West';
+export type WeatherDescription = 'rain' | 'sunny' | 'windy' | 'cloudy';
+export type WindDirrection = 'north' | 'north-east' | 'east' | 'south-east' | 'south' | 'south-west' | 'west' | 'north-west';
 
 export type WeatherInfo = {
     temperature: number;

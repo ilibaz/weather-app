@@ -40,7 +40,7 @@ app.get('/api/weather/:cityName', (req: Request, res: Response) => {
         const weatherInfo = {
             temperature: Math.floor(Math.random() * 30) + 1,
             windSpeed: Math.floor(Math.random() * 20) + 1,
-            windDirection: ['North', 'East', 'South', 'West'][Math.floor(Math.random() * 4)],
+            windDirection: ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'][Math.floor(Math.random() * 4)],
             condition: ['sunny', 'cloudy', 'rain'][Math.floor(Math.random() * 3)]
         };
 

@@ -1,9 +1,29 @@
+import { CloudSVG, RainSVG, SunSVG, WindSVG } from "../assets/WeatherSVG";
 import { City, useCities } from "../context/CitiesContext";
-import { useWeather } from "../context/WeatherContext";
+import { WeatherDescription, useWeather } from "../context/WeatherContext";
 
 interface CityCardProps {
     city: City;
 }
+
+type WeatherSVGMap = {
+    [key in WeatherDescription]: JSX.Element;
+};
+
+const weatherSVGs: WeatherSVGMap = {
+    rain: (
+        <RainSVG />
+    ),
+    sunny: (
+        <SunSVG />
+    ),
+    windy: (
+        <WindSVG />
+    ),
+    cloudy: (
+        <CloudSVG />
+    ),
+};
 
 function CityCard({ city }: CityCardProps) {
     const { backgroundColor, weatherInSelectedCity } = useWeather();
@@ -18,7 +38,7 @@ function CityCard({ city }: CityCardProps) {
 
     return (
         <div
-            className={`w-full relative rounded-lg shadow-lg p-4 cursor-pointer ${isSelected ? 'h-40' : 'h-20'}`}
+            className={`w-full h-auto relative rounded-lg shadow-lg p-4 cursor-pointer`}
             onClick={handleCardClick}
         >
             <div className="absolute inset-0 backdrop-filter backdrop-blur-lg rounded-lg"></div>
@@ -27,16 +47,32 @@ function CityCard({ city }: CityCardProps) {
                 style={{ backgroundColor: backgroundColor ? backgroundColor : undefined }}
             ></div>
             <div className="relative z-10">
-                <p className="mb-2">
+                <p className={isSelected ? 'mb-4' : ''}>
                     <span className="text-gray-800 text-xl font-bold">{city.city}</span>
-                    <span className="text-gray-800 text-xs"> | {city.admin_name}</span>
+                    <span className="text-gray-800 font-semibold text-xs"> | {city.admin_name}</span>
                 </p>
                 {isSelected && weatherInSelectedCity && (
-                    <div className="text-gray-800">
-                        <p>Temperature: {weatherInSelectedCity.temperature}°</p>
-                        <p>Wind Speed: {weatherInSelectedCity.windSpeed} m/s</p>
-                        <p>Wind Direction: {weatherInSelectedCity.windDirection}</p>
-                        <p>Condition: {weatherInSelectedCity.condition}</p>
+                    <div className="flex flex-col md:flex-row">
+                        <div className="w-full md:w-1/4 mb-4 md:mb-0 pt-0 md:pt-4 text-gray-800 font-semibold">
+                            <p>Temperature: {weatherInSelectedCity.temperature}°</p>
+                            <p>Condition: {weatherInSelectedCity.condition}</p>
+                        </div>
+                        <div className="w-full flex md:justify-center md:w-1/4 mb-4 md:mb-0">
+                            {weatherSVGs[weatherInSelectedCity.condition]}
+                        </div>
+                        <div className="w-full md:w-1/4 mb-10 md:mb-0 pt-0 md:pt-4 text-gray-800 font-semibold">
+                            <p>Wind Speed: {weatherInSelectedCity.windSpeed} m/s</p>
+                            <p>Direction: {weatherInSelectedCity.windDirection}</p>
+                        </div>
+                        <div className="w-full flex md:justify-center md:w-1/4 mb-6 md:mb-0 pt-0 md:pt-4 text-gray-800 font-semibold">
+                            <div className="compass ml-6">
+                                <div className={`arrow ${weatherInSelectedCity.windDirection}`}></div>
+                                <div className="compass-west">W</div>
+                                <div className="compass-east">E</div>
+                                <div className="compass-north">N</div>
+                                <div className="compass-south">S</div>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
