@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
+import compression from 'compression';
 
 const app = express();
 const port = 3001; // or any other port you prefer
 
 app.use(express.json());
+app.use(compression());
 
 // Enable CORS
 app.use((req, res, next) => {
