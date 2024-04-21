@@ -1,11 +1,27 @@
 // @ts-expect-error
 import Metolib from '@fmidev/metolib'
-import { WindDirrection } from '../context/WeatherContext';
+import { WeatherDescription, WeatherInfo, WindDirrection } from '../context/WeatherContext';
 
 export function degreesToDirection(degrees: number): WindDirrection {
     const directions = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
     const index = Math.round(degrees / 45) % 8;
     return directions[index] as WindDirrection;
+}
+
+export function predictWeather(weatherData: WeatherInfo): WeatherDescription {
+    if (weatherData.precipitation1h > 0) {
+        return 'rain';
+    }
+
+    if (weatherData.totalCloudCover > 2) {
+        return 'cloudy';
+    }
+
+    if (weatherData.windspeedms > 10) {
+        return 'windy';
+    }
+
+    return 'sunny';
 }
 
 export function FetchMetolibWeather(cities: string[]): Promise<any> {

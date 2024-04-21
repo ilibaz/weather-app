@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useCities } from './CitiesContext';
 import { useQuery } from '@tanstack/react-query';
-import { FetchMetolibWeather, degreesToDirection } from '../utils/Metolib';
+import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
 export type WeatherDescription = 'rain' | 'sunny' | 'windy' | 'cloudy';
 export type WindDirrection = 'north' | 'north-east' | 'east' | 'south-east' | 'south' | 'south-west' | 'west' | 'north-west';
@@ -11,14 +11,18 @@ export type WeatherInfo = {
     temperature: number;
     windspeedms: number;
     windDirection: WindDirrection;
+    precipitation1h: number;
+    totalCloudCover: number;
+    pressure: number;
+    humidity: number;
     condition: WeatherDescription;
 };
 
 type WeatherCache = { [key: string]: WeatherInfo };
 
 interface WeatherContextProps {
-    cachedWeather?: WeatherCache;
     backgroundColor?: string;
+    isLoading: boolean;
     readWeatherForLocalPlace: (localPlaceKey: string) => WeatherInfo | undefined;
     setBackgroundColor: (color: string) => void;
 }
@@ -54,7 +58,8 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
                         ...placeData,
                         timestamp: Date.now(),
                         localPlaceKey: localPlaceKey,
-                        windDirection: degreesToDirection(weatherData[placeKey].windDirection)
+                        windDirection: degreesToDirection(weatherData[placeKey].windDirection),
+                        condition: predictWeather(weatherData[placeKey])
                     };
                 }
             }
@@ -90,17 +95,11 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
         }
     }, [isLoading, error, data]);
 
-
-    // REMOVE
-    useEffect(() => {
-        console.log(cachedWeather)
-    }, [cachedWeather]);
-
     return (
         <WeatherContext.Provider
             value={{
                 backgroundColor,
-                cachedWeather,
+                isLoading,
                 readWeatherForLocalPlace,
                 setBackgroundColor,
             }}

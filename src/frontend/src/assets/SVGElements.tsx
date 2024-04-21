@@ -28,3 +28,9 @@ export const CloudSVG = () => {
     </svg>
 
 }
+
+export const LoadingSpinner = () => {
+    return <div className="flex justify-center items-center h-full my-4">
+        <div className="flex justify-center items-center w-12 h-12 rounded-full border-t-4 border-blue-500 border-solid animate-spin"></div>
+    </div>
+}
