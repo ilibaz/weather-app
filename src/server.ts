@@ -30,26 +30,6 @@ app.get('/api/cities', (req: Request, res: Response) => {
     res.json(citiesData);
 });
 
-// API endpoint to get weather info by city name
-app.get('/api/weather/:cityName', (req: Request, res: Response) => {
-    const cityName = req.params.cityName;
-    const city = citiesData.find((city) => city.city === cityName);
-
-    if (city) {
-        // Generate fake weather data (replace with actual weather API call in production)
-        const weatherInfo = {
-            temperature: Math.floor(Math.random() * 30) + 1,
-            windSpeed: Math.floor(Math.random() * 20) + 1,
-            windDirection: ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'][Math.floor(Math.random() * 4)],
-            condition: ['sunny', 'cloudy', 'rain'][Math.floor(Math.random() * 3)]
-        };
-
-        res.json(weatherInfo);
-    } else {
-        res.status(404).json({ error: 'City not found' });
-    }
-});
-
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

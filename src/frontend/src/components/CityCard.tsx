@@ -26,10 +26,11 @@ const weatherSVGs: WeatherSVGMap = {
 };
 
 function CityCard({ city }: CityCardProps) {
-    const { backgroundColor, weatherInSelectedCity } = useWeather();
+    const { backgroundColor, readWeatherForLocalPlace } = useWeather();
     const { selectedCity, setSelectedCity, setSearchTerm } = useCities();
 
     const isSelected = selectedCity ? selectedCity.city === city.city : false;
+    const weatherInSelectedCity = readWeatherForLocalPlace(city.city);
 
     const handleCardClick = () => {
         setSelectedCity(city);
@@ -61,18 +62,20 @@ function CityCard({ city }: CityCardProps) {
                             {weatherSVGs[weatherInSelectedCity.condition]}
                         </div>
                         <div className="w-full md:w-1/4 mb-10 md:mb-0 pt-0 md:pt-4 text-gray-800 font-semibold">
-                            <p>Wind Speed: {weatherInSelectedCity.windSpeed} m/s</p>
-                            <p>Direction: {weatherInSelectedCity.windDirection}</p>
+                            <p>Wind Speed: {weatherInSelectedCity.windspeedms ? weatherInSelectedCity.windspeedms + " m/s" : "Unknown"}</p>
+                            <p>Direction: {weatherInSelectedCity.windDirection ?? "Unknown"}</p>
                         </div>
-                        <div className="w-full flex md:justify-center md:w-1/4 mb-6 md:mb-0 pt-0 md:pt-4 text-gray-800 font-semibold">
-                            <div className="compass ml-6">
-                                <div className={`arrow ${weatherInSelectedCity.windDirection}`}></div>
-                                <div className="compass-west">W</div>
-                                <div className="compass-east">E</div>
-                                <div className="compass-north">N</div>
-                                <div className="compass-south">S</div>
-                            </div>
-                        </div>
+                        {weatherInSelectedCity.windDirection && (
+                            <div className="w-full flex md:justify-center md:w-1/4 mb-6 md:mb-0 pt-0 md:pt-4 text-gray-800 font-semibold">
+                                <div className="compass ml-6">
+                                    <div className={`arrow ${weatherInSelectedCity.windDirection}`}></div>
+                                    <div className="compass-west">W</div>
+                                    <div className="compass-east">E</div>
+                                    <div className="compass-north">N</div>
+                                    <div className="compass-south">S</div>
+                                </div>
+                            </div>)
+                        }
                     </div>
                 )}
             </div>
