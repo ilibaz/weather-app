@@ -28,7 +28,7 @@ export function predictWeather(weatherData: WeatherInfo): WeatherDescription {
 export function FetchMetolibWeather(cities: string[]): Promise<any> {
     return new Promise((resolve, reject) => {
         const SERVER_URL = "http://opendata.fmi.fi/wfs";
-        const STORED_QUERY_OBSERVATION = "fmi::observations::weather::multipointcoverage";
+        const STORED_QUERY_OBSERVATION = "fmi::forecast::harmonie::surface::point::multipointcoverage";
         const connection = new Metolib.WfsConnection();
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,7 +49,7 @@ export function FetchMetolibWeather(cities: string[]): Promise<any> {
                 requestParameter: "pressure,temperature,humidity,windspeedms,windDirection,precipitation1h,totalCloudCover",
                 begin: new Date(),
                 end: new Date(),
-                timestep: 1 * 60 * 60 * 1000,
+                timestep: 60 * 60 * 1000,
                 sites: cities,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 callback: function (data: any, errors: any) {
@@ -78,9 +78,9 @@ function parseWeatherData(data: any[]) {
         const parsedData: any = {};
         Object.keys(weatherData).forEach(key => {
             const property = weatherData[key];
-            // 2 time-value pairs always there, the second one has NaN values
+            // 2 time-value pairs always there, the second one is the most recent
             if (property.timeValuePairs.length === 2) {
-                parsedData[key] = property.timeValuePairs[0].value;
+                parsedData[key] = property.timeValuePairs[1].value;
             } else {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 parsedData[key] = property.timeValuePairs.map((pair: any) => ({
