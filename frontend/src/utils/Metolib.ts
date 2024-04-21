@@ -44,11 +44,14 @@ export function FetchMetolibWeather(cities: string[]): Promise<any> {
         }
 
         if (connection.connect(SERVER_URL, STORED_QUERY_OBSERVATION)) {
+            const currentTimeInHelsinki = new Date().toLocaleString('en-US', { timeZone: 'Europe/Helsinki' });
+            const timestamp = new Date(currentTimeInHelsinki).getTime();
+
             // Connection was properly initialized. So, get the data.
             connection.getData({
                 requestParameter: "pressure,temperature,humidity,windspeedms,windDirection,precipitation1h,totalCloudCover",
-                begin: new Date(),
-                end: new Date(),
+                begin: timestamp,
+                end: timestamp,
                 timestep: 60 * 60 * 1000,
                 sites: cities,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
