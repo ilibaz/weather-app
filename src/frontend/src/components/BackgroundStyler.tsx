@@ -17,17 +17,17 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
                 setAdditionalEffect("radial-gradient(circle at left top, rgb(200, 200, 200) 1%, transparent 30%)");
                 setBackgroundColor('#6dc6e3');
             } else if (weatherInSelectedCity.condition === "rain") {
-                setBackgroundGradient('from-[#5084e4] to-[#4872c2]');
+                setBackgroundGradient('from-[#dce2f6] to-[#c7d0ea]');
                 setAdditionalEffect("radial-gradient(circle at left top, rgb(25, 50, 155) 24%, transparent 100%)");
                 setBackgroundColor('#7d9dd9');
             } else if (weatherInSelectedCity.condition === "sunny") {
-                setBackgroundGradient('from-[#1199dd] to-[#019393]');
+                setBackgroundGradient('from-[#bfe3f4] to-[#93d6d1]');
                 setAdditionalEffect("radial-gradient(circle at left top, rgb(100, 200, 200) -15%, transparent 45%)");
                 setBackgroundColor('#7cb3f0');
             }
         } else {
             // default to sunny
-            setBackgroundGradient('from-[#1199dd] to-[#019393]');
+            setBackgroundGradient('from-[#bfe3f4] to-[#93d6d1]');
             setAdditionalEffect("radial-gradient(circle at left top, rgb(100, 200, 200) -15%, transparent 45%)");
             setBackgroundColor('#7cb3f0');
         }
