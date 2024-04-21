@@ -120,11 +120,11 @@ body {
 }
 
 .compass-west {
-  left: calc(-65% - 1px)
+  left: -65%;
 }
 
 .compass-east {
-  right: calc(-65% + 3px)
+  right: -50%;
 }
 
 /* 
