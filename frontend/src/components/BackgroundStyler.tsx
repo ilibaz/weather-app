@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useWeather } from "../context/WeatherContext";
 
 interface BackgroundStylerProps {
@@ -6,9 +6,14 @@ interface BackgroundStylerProps {
 }
 
 const BackgroundStyler: React.FC<BackgroundStylerProps> = ({ children }) => {
-    const { weatherInSelectedCity, setBackgroundColor } = useWeather();
+    const { selectedCity, readWeatherForLocalPlace, setBackgroundColor } = useWeather();
     const [backgroundGradient, setBackgroundGradient] = useState<string>('');
     const [additionalEffect, setAdditionalEffect] = useState<string>('');
+
+    const weatherInSelectedCity = useMemo(() =>
+        selectedCity ? readWeatherForLocalPlace(selectedCity.city) : undefined,
+        [selectedCity, readWeatherForLocalPlace]
+    );
 
     useEffect(() => {
         if (weatherInSelectedCity) {

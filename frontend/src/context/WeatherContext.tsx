@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { useCities } from './CitiesContext';
+import { City, useCities } from './CitiesContext';
 import { useQuery } from '@tanstack/react-query';
 import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
@@ -23,6 +23,7 @@ type WeatherCache = { [key: string]: WeatherInfo };
 interface WeatherContextProps {
     backgroundColor?: string;
     isLoading: boolean;
+    selectedCity?: City;
     readWeatherForLocalPlace: (localPlaceKey: string) => WeatherInfo | undefined;
     setBackgroundColor: (color: string) => void;
 }
@@ -100,6 +101,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
             value={{
                 backgroundColor,
                 isLoading,
+                selectedCity,
                 readWeatherForLocalPlace,
                 setBackgroundColor,
             }}
