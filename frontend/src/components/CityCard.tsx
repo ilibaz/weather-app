@@ -76,13 +76,13 @@ function CityCard({ city }: CityCardProps) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                             <div className="text-gray-800 font-semibold">
                                 <p>Temperature: {weatherInSelectedCity.temperature} °</p>
-                                <p>Condition: {weatherInSelectedCity.condition}</p>
                                 <p>Pressure: {weatherInSelectedCity.pressure} hPa</p>
+                                <p>Condition: {weatherInSelectedCity.condition}</p>
                             </div>
                             <div className="text-gray-800 font-semibold">
+                                <p>Precipitation: {weatherInSelectedCity.precipitation1h} mm</p>
                                 <p>Wind Speed: {weatherInSelectedCity.windspeedms} m/s</p>
                                 <p>Direction: {weatherInSelectedCity.windDirection}</p>
-                                <p>Precipitation: {weatherInSelectedCity.precipitation1h} mm</p>
                             </div>
                         </div>
 
