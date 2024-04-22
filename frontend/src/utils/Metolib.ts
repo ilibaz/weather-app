@@ -31,6 +31,8 @@ export function FetchMetolibWeather(cities: string[]): Promise<any> {
         const STORED_QUERY_OBSERVATION = "fmi::forecast::harmonie::surface::point::multipointcoverage";
         const connection = new Metolib.WfsConnection();
 
+        console.info("Requesting weather for: " + cities.join(', '));
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         function handleCallback(data: any, errors: any[]) {
             if (errors.length > 0) {

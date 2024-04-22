@@ -1,6 +1,7 @@
 import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { useCities } from './CitiesContext';
+import { City, useCities } from './CitiesContext';
 import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from '@uidotdev/usehooks';
 import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
 export type WeatherDescription = 'rain' | 'sunny' | 'windy' | 'cloudy';
@@ -35,13 +36,16 @@ export const useWeather = () => {
     return context;
 };
 
+const WEATHER_FETCH_INTERVAL = 15 * 60 * 1000; // 15 min
+
 interface WeatherProviderProps {
     children: ReactNode;
 }
 
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
-    const { selectedCity } = useCities();
+    const { visibleCities } = useCities();
     const [cachedWeather, setCachedWeather] = useState<WeatherCache>();
+    const debouncedVisibleCities = useDebounce<City[]>(visibleCities, 1000);
 
     const updateCachedWeather = useCallback((weatherData: WeatherCache) => {
         setCachedWeather(prevCachedWeather => {
@@ -72,20 +76,43 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
         }
     }, [cachedWeather]);
 
+    const prepareCitiesForFetching = useCallback((cities: City[]): string[] => {
+        let resultCities: City[] = [];
+        const currentTimestamp = Date.now();
+
+        if (cachedWeather) {
+            cities.forEach((city) => {
+                if (!Object.hasOwnProperty.call(cachedWeather, city.city)) {
+                    resultCities.push(city);
+                } else {
+                    const cityWeather = cachedWeather[city.city];
+                    const timeSinceLastFetch = currentTimestamp - cityWeather.timestamp;
+                    if (timeSinceLastFetch >= WEATHER_FETCH_INTERVAL) {
+                        resultCities.push(city);
+                    }
+                }
+            });
+        } else {
+            resultCities = [...cities];
+        }
+
+        return resultCities.map(city => city.city);
+    }, [cachedWeather]);
+
     const { isLoading, data, error } = useQuery({
-        queryKey: ['cityWeather', selectedCity?.city],
-        queryFn: () => FetchMetolibWeather([selectedCity!.city]),
-        enabled: selectedCity !== undefined,
+        queryKey: ['weather', prepareCitiesForFetching(debouncedVisibleCities)],
+        queryFn: () => FetchMetolibWeather(prepareCitiesForFetching(debouncedVisibleCities)),
+        enabled: prepareCitiesForFetching(debouncedVisibleCities).length > 0,
     });
 
     useEffect(() => {
-        if (!isLoading && !error && selectedCity) {
+        if (!isLoading && !error && data) {
             updateCachedWeather(data);
         }
         if (!isLoading && error) {
             console.error(error);
         }
-    }, [isLoading, error, data, selectedCity, updateCachedWeather]);
+    }, [isLoading, error, data, updateCachedWeather]);
 
     return (
         <WeatherContext.Provider

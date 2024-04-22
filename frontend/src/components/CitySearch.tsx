@@ -2,11 +2,10 @@ import { ChangeEvent } from 'react';
 import { useCities } from '../context/CitiesContext';
 
 function CitySearch() {
-    const { searchTerm, setSearchTerm, setSelectedCity, resetCityAndTerm } = useCities();
+    const { searchTerm, setSearchTerm, resetSearchTerm } = useCities();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
-        setSelectedCity(undefined);
     };
 
     return (
@@ -26,7 +25,7 @@ function CitySearch() {
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        onClick={() => resetCityAndTerm()}
+                        onClick={() => resetSearchTerm()}
                         style={{ display: searchTerm !== '' ? 'block' : 'none' }}
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -385,17 +385,6 @@
     "population_proper": "32229"
   }, 
   {
-    "city": "Jyväskylän Maalaiskunta", 
-    "lat": "62.2889", 
-    "lng": "25.7417", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Keski-Suomi", 
-    "capital": "", 
-    "population": "31870", 
-    "population_proper": "31870"
-  }, 
-  {
     "city": "Riihimäki", 
     "lat": "60.7333", 
     "lng": "24.7667", 
@@ -1010,17 +999,6 @@
     "capital": "minor", 
     "population": "12044", 
     "population_proper": "12044"
-  }, 
-  {
-    "city": "Mikkelin Maalaiskunta", 
-    "lat": "61.6776", 
-    "lng": "27.2021", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Etelä-Savo", 
-    "capital": "", 
-    "population": "11988", 
-    "population_proper": "11988"
   }, 
   {
     "city": "Vehkalahti", 
@@ -2002,17 +1980,6 @@
     "population_proper": "6155"
   }, 
   {
-    "city": "Pieksämäen Maalaiskunta", 
-    "lat": "62.2833", 
-    "lng": "27.0667", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Etelä-Savo", 
-    "capital": "", 
-    "population": "6118", 
-    "population_proper": "6118"
-  }, 
-  {
     "city": "Rusko", 
     "lat": "60.5417", 
     "lng": "22.2250", 
@@ -2044,17 +2011,6 @@
     "capital": "minor", 
     "population": "6068", 
     "population_proper": "6068"
-  }, 
-  {
-    "city": "Heinolan Maalaiskunta", 
-    "lat": "61.2500", 
-    "lng": "26.0667", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Päijät-Häme", 
-    "capital": "", 
-    "population": "6061", 
-    "population_proper": "6061"
   }, 
   {
     "city": "Juva", 
@@ -3782,18 +3738,7 @@
     "capital": "minor", 
     "population": "2236", 
     "population_proper": "2236"
-  }, 
-  {
-    "city": "Koski Tl", 
-    "lat": "60.6550", 
-    "lng": "23.1417", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Varsinais-Suomi", 
-    "capital": "minor", 
-    "population": "2227", 
-    "population_proper": "2227"
-  }, 
+  },  
   {
     "city": "Soini", 
     "lat": "62.8750", 

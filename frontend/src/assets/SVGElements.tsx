@@ -30,7 +30,5 @@ export const CloudSVG = () => {
 }
 
 export const LoadingSpinner = () => {
-    return <div className="flex justify-center items-center h-full my-4">
-        <div className="flex justify-center items-center w-12 h-12 rounded-full border-t-4 border-blue-500 border-solid animate-spin"></div>
-    </div>
+    return <div className="flex justify-center items-center w-3 h-3 rounded-full border-t-2 border-blue-500 border-solid animate-spin"></div>
 }

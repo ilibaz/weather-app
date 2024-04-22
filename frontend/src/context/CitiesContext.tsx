@@ -20,10 +20,13 @@ interface CitiesContextProps {
     isLoading: boolean;
     error: Error | null;
     searchTerm: string;
-    selectedCity?: City;
+
+    visibleCities: City[];
+    addVisibleCity: (city: City) => void;
+    removeVisibleCity: (city: City) => void;
+
     setSearchTerm: (term: string) => void;
-    setSelectedCity: (city?: City) => void;
-    resetCityAndTerm: () => void;
+    resetSearchTerm: () => void;
 }
 
 const CitiesContext = createContext<CitiesContextProps | undefined>(undefined);
@@ -43,7 +46,22 @@ interface CitiesProviderProps {
 export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredCities, setFilteredCities] = useState<City[]>([]);
-    const [selectedCity, setSelectedCity] = useState<City>();
+    const [visibleCities, setVisibleCities] = useState<City[]>([]);
+
+    const addVisibleCity = (city: City) => {
+        setVisibleCities(prevVisibleCities => {
+            if (!prevVisibleCities.includes(city)) {
+                return [...prevVisibleCities, city];
+            }
+            return prevVisibleCities;
+        });
+    };
+
+    const removeVisibleCity = (city: City) => {
+        setVisibleCities(prevVisibleCities =>
+            prevVisibleCities.filter(visibleCity => visibleCity.city !== city.city)
+        );
+    };
 
     const { isLoading, error, data: cities } = useQuery<City[]>({
         queryKey: ['cities'],
@@ -69,14 +87,23 @@ export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
         setFilteredCities(filtered);
     }, [cities, searchTerm]);
 
-    const resetCityAndTerm = () => {
+    const resetSearchTerm = () => {
         setSearchTerm('');
-        setSelectedCity(undefined);
     }
 
     return (
         <CitiesContext.Provider
-            value={{ filteredCities, isLoading, error, searchTerm, selectedCity, setSelectedCity, setSearchTerm, resetCityAndTerm }}
+            value={{
+                filteredCities,
+                isLoading,
+                error,
+                searchTerm,
+                visibleCities,
+                addVisibleCity,
+                removeVisibleCity,
+                setSearchTerm,
+                resetSearchTerm
+            }}
         >
             {children}
         </CitiesContext.Provider>

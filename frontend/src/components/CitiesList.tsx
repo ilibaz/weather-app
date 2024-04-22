@@ -4,7 +4,6 @@ import { useCities } from '../context/CitiesContext'
 function CitiesList() {
     const { filteredCities, isLoading, error } = useCities();
 
-
     if (isLoading) {
         return <div className="min-h-screen flex justify-center items-center p-4">Fetching cities...</div>
     }

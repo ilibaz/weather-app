@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { CloudSVG, LoadingSpinner, RainSVG, SunSVG, WindSVG } from "../assets/SVGElements";
 import { City, useCities } from "../context/CitiesContext";
 import { WeatherDescription, useWeather } from "../context/WeatherContext";
+import useIsVisible from "../hooks/useIsVisible";
 import BackgroundStyler from "../utils/BackgroundStyler";
 
 interface CityCardProps {
@@ -28,21 +30,31 @@ const weatherSVGs: WeatherSVGMap = {
 
 function CityCard({ city }: CityCardProps) {
     const { isLoading, readWeatherForLocalPlace } = useWeather();
-    const { selectedCity, setSelectedCity, setSearchTerm } = useCities();
+    const { addVisibleCity, removeVisibleCity } = useCities();
+    const { ref, isVisible } = useIsVisible<HTMLDivElement>();
+    const [isSelected, setIsSelected] = useState<boolean>(false);
 
-    const isSelected = selectedCity ? selectedCity.city === city.city : false;
     const weatherInSelectedCity = readWeatherForLocalPlace(city.city);
 
     const handleCardClick = () => {
-        setSelectedCity(city);
-        setSearchTerm(city.city);
+        setIsSelected(!isSelected);
     };
+
+    useEffect(() => {
+        if (isVisible) {
+            addVisibleCity(city);
+        } else {
+            removeVisibleCity(city);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isVisible, city]);
 
     return (
         <BackgroundStyler weather={weatherInSelectedCity}>
             <div
                 className={`w-full h-auto relative shadow-lg p-4 cursor-pointer`}
                 onClick={handleCardClick}
+                ref={ref}
             >
 
                 <div className="absolute inset-0 backdrop-filter backdrop-blur-lg"></div>
@@ -50,13 +62,14 @@ function CityCard({ city }: CityCardProps) {
                     className="absolute inset-0 bg-gray-200 opacity-50"
                 ></div>
                 <div className="relative z-10">
-                    <p className={isSelected ? 'mb-4' : ''}>
-                        <span className="text-gray-800 text-xl font-bold">{city.city}</span>
-                        <span className="text-gray-800 font-semibold text-sm"> | {city.admin_name}</span>
-                    </p>
-                    {isLoading && (
-                        <LoadingSpinner />
-                    )}
+                    <div className={`flex flex-row items-center ${isSelected ? 'mb-4' : ''}`}>
+                        <span className="text-gray-800 text-xl font-bold pr-2">{city.city}</span>
+                        <span className="text-gray-800 font-semibold text-sm pr-4"> | {city.admin_name}</span>
+                        {isLoading && (
+                            <LoadingSpinner />
+                        )}
+                    </div>
+
                     {isSelected && !isLoading && weatherInSelectedCity && (
                         <div className="flex flex-col">
                             <div className="w-full flex flex-row mb-4">
