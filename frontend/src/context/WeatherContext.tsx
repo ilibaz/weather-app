@@ -21,11 +21,9 @@ export type WeatherInfo = {
 export type WeatherCache = { [key: string]: WeatherInfo };
 
 interface WeatherContextProps {
-    backgroundColor?: string;
     isLoading: boolean;
     selectedCity?: City;
     readWeatherForLocalPlace: (localPlaceKey: string) => WeatherInfo | undefined;
-    setBackgroundColor: (color: string) => void;
 }
 
 const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);
@@ -45,7 +43,6 @@ interface WeatherProviderProps {
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
     const { selectedCity } = useCities();
     const [cachedWeather, setCachedWeather] = useState<WeatherCache>();
-    const [backgroundColor, setBackgroundColor] = useState<string>();
 
     const updateCachedWeather = useCallback((weatherData: WeatherCache, localPlaceKey: string) => {
         setCachedWeather(prevCachedWeather => {
@@ -99,11 +96,9 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
     return (
         <WeatherContext.Provider
             value={{
-                backgroundColor,
                 isLoading,
                 selectedCity,
                 readWeatherForLocalPlace,
-                setBackgroundColor,
             }}
         >
             {children}

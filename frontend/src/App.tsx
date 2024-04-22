@@ -4,7 +4,6 @@ import {
 } from '@tanstack/react-query'
 import CitiesList from './components/CitiesList'
 import CitySearch from './components/CitySearch'
-import BackgroundStyler from './components/BackgroundStyler'
 import { WeatherProvider } from './context/WeatherContext'
 import { CitiesProvider } from './context/CitiesContext'
 
@@ -23,10 +22,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <CitiesProvider>
         <WeatherProvider>
-          <BackgroundStyler>
-            <CitySearch />
-            <CitiesList />
-          </BackgroundStyler>
+          <CitySearch />
+          <CitiesList />
         </WeatherProvider>
       </CitiesProvider>
     </QueryClientProvider>
