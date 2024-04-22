@@ -39,7 +39,6 @@ export function FetchMetolibWeather(cities: string[]): Promise<any> {
             } else {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const parsedData = parseWeatherData((data as any).locations);
-                console.log(parsedData);
                 resolve(parsedData);
             }
         }

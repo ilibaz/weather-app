@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { City, useCities } from './CitiesContext';
+import { useCities } from './CitiesContext';
 import { useQuery } from '@tanstack/react-query';
 import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
@@ -22,7 +22,6 @@ export type WeatherCache = { [key: string]: WeatherInfo };
 
 interface WeatherContextProps {
     isLoading: boolean;
-    selectedCity?: City;
     readWeatherForLocalPlace: (localPlaceKey: string) => WeatherInfo | undefined;
 }
 
@@ -44,7 +43,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
     const { selectedCity } = useCities();
     const [cachedWeather, setCachedWeather] = useState<WeatherCache>();
 
-    const updateCachedWeather = useCallback((weatherData: WeatherCache, localPlaceKey: string) => {
+    const updateCachedWeather = useCallback((weatherData: WeatherCache) => {
         setCachedWeather(prevCachedWeather => {
             const updatedCache = { ...prevCachedWeather };
 
@@ -55,7 +54,6 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
                     updatedCache[placeKey] = {
                         ...placeData,
                         timestamp: Date.now(),
-                        localPlaceKey: localPlaceKey,
                         windDirection: degreesToDirection(weatherData[placeKey].windDirection as unknown as number),
                         condition: predictWeather(weatherData[placeKey])
                     };
@@ -66,13 +64,9 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
         });
     }, [setCachedWeather]);
 
-    const readWeatherForLocalPlace = useCallback((localPlaceKey: string): WeatherInfo | undefined => {
+    const readWeatherForLocalPlace = useCallback((place: string): WeatherInfo | undefined => {
         if (cachedWeather) {
-            for (const placeKey in cachedWeather) {
-                if (cachedWeather[placeKey].localPlaceKey === localPlaceKey) {
-                    return cachedWeather[placeKey];
-                }
-            }
+            return cachedWeather[place];
         } else {
             return undefined;
         }
@@ -86,7 +80,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
 
     useEffect(() => {
         if (!isLoading && !error && selectedCity) {
-            updateCachedWeather(data, selectedCity.city);
+            updateCachedWeather(data);
         }
         if (!isLoading && error) {
             console.error(error);
@@ -97,7 +91,6 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
         <WeatherContext.Provider
             value={{
                 isLoading,
-                selectedCity,
                 readWeatherForLocalPlace,
             }}
         >
