@@ -1,9 +1,10 @@
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
-import { CloudSVG, LoadingSpinner, RainSVG, SunSVG, WindSVG } from "../assets/SVGElements";
+import { CloudSVG, RainSVG, SunSVG, WindSVG } from "../assets/SVGElements";
 import { City, useCities } from "../context/CitiesContext";
 import { WeatherDescription, useWeather } from "../context/WeatherContext";
 import useIsVisible from "../hooks/useIsVisible";
 import BackgroundStyler from "../utils/BackgroundStyler";
+import { LoadingSpinner, SkeletonLoader } from "../assets/Helpers";
 
 interface CityCardProps {
     city: City;
@@ -80,39 +81,42 @@ function CityCard({ city }: CityCardProps) {
                         )}
                     </div>
 
-                    {isSelected && !isLoading && weatherInfo && (
-                        <div className="flex flex-col">
-                            <div className="w-full flex flex-row mb-4">
-                                <div className="w-full flex md:w-1/2 mb-4 md:mb-0">
-                                    {weatherSVGs[weatherInfo.condition]}
-                                </div>
-                                {weatherInfo.windDirection && (
-                                    <div className="w-full flex md:w-1/2 md:mb-0 ">
-                                        <div className="compass translate-x-1/2 translate-y-1/2 text-gray-800 font-semibold">
-                                            <div className={`arrow ${weatherInfo.windDirection}`}></div>
-                                            <div className="compass-west">W</div>
-                                            <div className="compass-east">E</div>
-                                            <div className="compass-north">N</div>
-                                            <div className="compass-south">S</div>
+                    {isSelected &&
+                        (!isLoading && weatherInfo ?
+                            (
+                                <div className="flex flex-col">
+                                    <div className="w-full flex flex-row mb-4">
+                                        <div className="w-full flex md:w-1/2 mb-4 md:mb-0">
+                                            {weatherSVGs[weatherInfo.condition]}
                                         </div>
-                                    </div>)
-                                }
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                                <div className="text-gray-800 font-semibold">
-                                    <p>Temperature: {weatherInfo.temperature} °</p>
-                                    <p>Pressure: {weatherInfo.pressure} hPa</p>
-                                    <p>Condition: {weatherInfo.condition}</p>
-                                </div>
-                                <div className="text-gray-800 font-semibold">
-                                    <p>Precipitation: {weatherInfo.precipitation1h} mm</p>
-                                    <p>Wind Speed: {weatherInfo.windspeedms} m/s</p>
-                                    <p>Direction: {weatherInfo.windDirection}</p>
-                                </div>
-                            </div>
+                                        {weatherInfo.windDirection && (
+                                            <div className="w-full flex md:w-1/2 md:mb-0 ">
+                                                <div className="compass translate-x-1/2 translate-y-1/2 text-gray-800 font-semibold">
+                                                    <div className={`arrow ${weatherInfo.windDirection}`}></div>
+                                                    <div className="compass-west">W</div>
+                                                    <div className="compass-east">E</div>
+                                                    <div className="compass-north">N</div>
+                                                    <div className="compass-south">S</div>
+                                                </div>
+                                            </div>)
+                                        }
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                                        <div className="text-gray-800 font-semibold">
+                                            <p>Temperature: {weatherInfo.temperature} °</p>
+                                            <p>Pressure: {weatherInfo.pressure} hPa</p>
+                                            <p>Condition: {weatherInfo.condition}</p>
+                                        </div>
+                                        <div className="text-gray-800 font-semibold">
+                                            <p>Precipitation: {weatherInfo.precipitation1h} mm</p>
+                                            <p>Wind Speed: {weatherInfo.windspeedms} m/s</p>
+                                            <p>Direction: {weatherInfo.windDirection}</p>
+                                        </div>
+                                    </div>
 
-                        </div>
-                    )}
+                                </div>
+                            ) : <SkeletonLoader />
+                        )}
                 </div>
             </div>
         </BackgroundStyler>
