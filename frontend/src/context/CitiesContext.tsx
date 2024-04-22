@@ -40,6 +40,7 @@ export const useCities = () => {
 interface CitiesProviderProps {
     children: ReactNode;
 }
+
 export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredCities, setFilteredCities] = useState<City[]>([]);

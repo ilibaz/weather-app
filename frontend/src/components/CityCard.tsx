@@ -50,6 +50,10 @@ function CityCard({ city }: CityCardProps) {
         } else {
             removeVisibleCity(city);
         }
+
+        return () => {
+            removeVisibleCity(city);
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isVisible, city, searchTerm]);
 
