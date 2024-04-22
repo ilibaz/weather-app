@@ -554,40 +554,6 @@ video {
   --tw-contain-style:  ;
 }
 
-.container {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
-  }
-}
-
 .absolute {
   position: absolute;
 }
@@ -645,11 +611,6 @@ video {
   z-index: 50;
 }
 
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -666,8 +627,8 @@ video {
   display: grid;
 }
 
-.h-12 {
-  height: 3rem;
+.h-3 {
+  height: 0.75rem;
 }
 
 .h-6 {
@@ -678,20 +639,12 @@ video {
   height: auto;
 }
 
-.h-full {
-  height: 100%;
-}
-
-.h-3 {
-  height: 0.75rem;
-}
-
 .min-h-screen {
   min-height: 100vh;
 }
 
-.w-12 {
-  width: 3rem;
+.w-3 {
+  width: 0.75rem;
 }
 
 .w-4\/5 {
@@ -704,10 +657,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-3 {
-  width: 0.75rem;
 }
 
 .min-w-\[300px\] {
@@ -791,10 +740,6 @@ video {
   border-radius: 0.5rem;
 }
 
-.border-t-4 {
-  border-top-width: 4px;
-}
-
 .border-t-2 {
   border-top-width: 2px;
 }
@@ -818,13 +763,8 @@ video {
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 }
 
-.bg-white {
+.bg-opacity-100 {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-opacity-25 {
-  --tw-bg-opacity: 0.25;
 }
 
 .bg-gradient-to-br {
@@ -889,20 +829,16 @@ video {
   padding-bottom: 4rem;
 }
 
-.pt-24 {
-  padding-top: 6rem;
-}
-
 .pr-2 {
   padding-right: 0.5rem;
 }
 
-.pl-2 {
-  padding-left: 0.5rem;
-}
-
 .pr-4 {
   padding-right: 1rem;
+}
+
+.pt-24 {
+  padding-top: 6rem;
 }
 
 .text-sm {
@@ -928,14 +864,24 @@ video {
   color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
-.placeholder-gray-800::-moz-placeholder {
+.placeholder-gray-700::-moz-placeholder {
   --tw-placeholder-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-placeholder-opacity));
+  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
 }
 
-.placeholder-gray-800::placeholder {
+.placeholder-gray-700::placeholder {
   --tw-placeholder-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-placeholder-opacity));
+  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-500::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-500::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-placeholder-opacity));
 }
 
 .opacity-50 {

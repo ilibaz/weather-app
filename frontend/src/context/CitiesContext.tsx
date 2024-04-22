@@ -72,19 +72,13 @@ export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
     })
 
     useEffect(() => {
-        let filtered: City[] = [];
-
-        if (cities) {
-            filtered = cities;
-        }
-
-        if (searchTerm) {
-            filtered = cities ? cities.filter(city =>
+        if (searchTerm && cities) {
+            setFilteredCities(cities.filter(city =>
                 city.city.toLowerCase().includes(searchTerm.toLowerCase())
-            ) : [];
+            ));
+        } else {
+            setFilteredCities(cities || []);
         }
-
-        setFilteredCities(filtered);
     }, [cities, searchTerm]);
 
     const resetSearchTerm = () => {

@@ -14,7 +14,7 @@ function CitySearch() {
                 <div className="relative min-w-[300px] md:w-4/5 w-full">
                     <input
                         type="text"
-                        className="bg-white bg-opacity-25 rounded-lg py-2 px-4 w-full outline-none font-bold placeholder-gray-800 text-gray-800"
+                        className="bg-gray-300 bg-opacity-100 rounded-lg py-2 px-4 w-full outline-none font-bold placeholder-gray-500 text-gray-800"
                         placeholder="Start by searching for a city..."
                         value={searchTerm}
                         onChange={handleChange}
