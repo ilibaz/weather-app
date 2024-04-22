@@ -5,7 +5,7 @@ import { useDebounce } from '@uidotdev/usehooks';
 import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
 const WEATHER_FETCH_INTERVAL = 15 * 60 * 1000; // 15 min
-const DEBOUNCE_DELAY = 1000; // 1 sec
+const DEBOUNCE_DELAY = 500; // 1 sec
 
 export type WeatherDescription = 'rain' | 'sunny' | 'windy' | 'cloudy';
 export type WindDirrection = 'north' | 'north-east' | 'east' | 'south-east' | 'south' | 'south-west' | 'west' | 'north-west';

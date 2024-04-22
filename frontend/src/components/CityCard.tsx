@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { CloudSVG, LoadingSpinner, RainSVG, SunSVG, WindSVG } from "../assets/SVGElements";
 import { City, useCities } from "../context/CitiesContext";
 import { WeatherDescription, useWeather } from "../context/WeatherContext";
@@ -32,7 +32,9 @@ function CityCard({ city }: CityCardProps) {
     const { readWeatherForCity, isWeatherLoadingForCity } = useWeather();
     const { searchTerm, addVisibleCity, removeVisibleCity } = useCities();
     const [isSelected, setIsSelected] = useState<boolean>(false);
-    const { ref, isVisible } = useIsVisible<HTMLDivElement>(searchTerm);
+
+    const deferredSearchTerm = useDeferredValue(searchTerm);
+    const { ref, isVisible } = useIsVisible<HTMLDivElement>(deferredSearchTerm);
 
     const weatherInfo = readWeatherForCity(city.city);
     const isLoading = useMemo(() => {
@@ -55,7 +57,7 @@ function CityCard({ city }: CityCardProps) {
             removeVisibleCity(city);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isVisible, city, searchTerm]);
+    }, [isVisible, city, deferredSearchTerm]);
 
     return (
         <BackgroundStyler weather={weatherInfo}>
