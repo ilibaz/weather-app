@@ -4,6 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
+const WEATHER_FETCH_INTERVAL = 15 * 60 * 1000; // 15 min
+const DEBOUNCE_DELAY = 1000; // 1 sec
+
 export type WeatherDescription = 'rain' | 'sunny' | 'windy' | 'cloudy';
 export type WindDirrection = 'north' | 'north-east' | 'east' | 'south-east' | 'south' | 'south-west' | 'west' | 'north-west';
 export type WeatherInfo = {
@@ -23,7 +26,8 @@ export type WeatherCache = { [key: string]: WeatherInfo };
 
 interface WeatherContextProps {
     isLoading: boolean;
-    readWeatherForLocalPlace: (localPlaceKey: string) => WeatherInfo | undefined;
+    readWeatherForCity: (localPlaceKey: string) => WeatherInfo | undefined;
+    isWeatherLoadingForCity: (city: City) => boolean;
 }
 
 const WeatherContext = createContext<WeatherContextProps | undefined>(undefined);
@@ -36,8 +40,6 @@ export const useWeather = () => {
     return context;
 };
 
-const WEATHER_FETCH_INTERVAL = 15 * 60 * 1000; // 15 min
-
 interface WeatherProviderProps {
     children: ReactNode;
 }
@@ -45,7 +47,7 @@ interface WeatherProviderProps {
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
     const { visibleCities } = useCities();
     const [cachedWeather, setCachedWeather] = useState<WeatherCache>();
-    const debouncedVisibleCities = useDebounce<City[]>(visibleCities, 1000);
+    const debouncedVisibleCities = useDebounce<City[]>(visibleCities, DEBOUNCE_DELAY);
 
     const updateCachedWeather = useCallback((weatherData: WeatherCache) => {
         setCachedWeather(prevCachedWeather => {
@@ -68,7 +70,12 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
         });
     }, [setCachedWeather]);
 
-    const readWeatherForLocalPlace = useCallback((place: string): WeatherInfo | undefined => {
+    const isWeatherLoadingForCity = useCallback((city: City): boolean => {
+        const cityIsInDebounced = debouncedVisibleCities.findIndex(vc => vc.city === city.city) > -1;
+        return cachedWeather ? cityIsInDebounced && !cachedWeather[city.city] : cityIsInDebounced;
+    }, [cachedWeather, debouncedVisibleCities]);
+
+    const readWeatherForCity = useCallback((place: string): WeatherInfo | undefined => {
         if (cachedWeather) {
             return cachedWeather[place];
         } else {
@@ -77,7 +84,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
     }, [cachedWeather]);
 
     const prepareCitiesForFetching = useCallback((cities: City[]): string[] => {
-        let resultCities: City[] = [];
+        const resultCities: City[] = [];
         const currentTimestamp = Date.now();
 
         if (cachedWeather) {
@@ -93,7 +100,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
                 }
             });
         } else {
-            resultCities = [...cities];
+            resultCities.push(...cities);
         }
 
         return resultCities.map(city => city.city);
@@ -118,7 +125,8 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
         <WeatherContext.Provider
             value={{
                 isLoading,
-                readWeatherForLocalPlace,
+                readWeatherForCity,
+                isWeatherLoadingForCity
             }}
         >
             {children}

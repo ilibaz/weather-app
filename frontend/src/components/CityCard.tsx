@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CloudSVG, LoadingSpinner, RainSVG, SunSVG, WindSVG } from "../assets/SVGElements";
 import { City, useCities } from "../context/CitiesContext";
 import { WeatherDescription, useWeather } from "../context/WeatherContext";
@@ -29,15 +29,19 @@ const weatherSVGs: WeatherSVGMap = {
 };
 
 function CityCard({ city }: CityCardProps) {
-    const { isLoading, readWeatherForLocalPlace } = useWeather();
+    const { readWeatherForCity, isWeatherLoadingForCity } = useWeather();
     const { searchTerm, addVisibleCity, removeVisibleCity } = useCities();
-    const { ref, isVisible } = useIsVisible<HTMLDivElement>(searchTerm);
     const [isSelected, setIsSelected] = useState<boolean>(false);
+    const { ref, isVisible } = useIsVisible<HTMLDivElement>(searchTerm);
 
-    const weatherInSelectedCity = readWeatherForLocalPlace(city.city);
+    const weatherInfo = readWeatherForCity(city.city);
+    const isLoading = useMemo(() => {
+        return isWeatherLoadingForCity(city);
+    }, [city, isWeatherLoadingForCity]);
 
     const handleCardClick = () => {
         setIsSelected(!isSelected);
+        addVisibleCity(city);
     };
 
     useEffect(() => {
@@ -50,7 +54,7 @@ function CityCard({ city }: CityCardProps) {
     }, [isVisible, city, searchTerm]);
 
     return (
-        <BackgroundStyler weather={weatherInSelectedCity}>
+        <BackgroundStyler weather={weatherInfo}>
             <div
                 className={`w-full h-auto relative shadow-lg p-4 cursor-pointer`}
                 onClick={handleCardClick}
@@ -70,16 +74,16 @@ function CityCard({ city }: CityCardProps) {
                         )}
                     </div>
 
-                    {isSelected && !isLoading && weatherInSelectedCity && (
+                    {isSelected && !isLoading && weatherInfo && (
                         <div className="flex flex-col">
                             <div className="w-full flex flex-row mb-4">
                                 <div className="w-full flex md:w-1/2 mb-4 md:mb-0">
-                                    {weatherSVGs[weatherInSelectedCity.condition]}
+                                    {weatherSVGs[weatherInfo.condition]}
                                 </div>
-                                {weatherInSelectedCity.windDirection && (
+                                {weatherInfo.windDirection && (
                                     <div className="w-full flex md:w-1/2 md:mb-0 ">
                                         <div className="compass translate-x-1/2 translate-y-1/2 text-gray-800 font-semibold">
-                                            <div className={`arrow ${weatherInSelectedCity.windDirection}`}></div>
+                                            <div className={`arrow ${weatherInfo.windDirection}`}></div>
                                             <div className="compass-west">W</div>
                                             <div className="compass-east">E</div>
                                             <div className="compass-north">N</div>
@@ -90,14 +94,14 @@ function CityCard({ city }: CityCardProps) {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                                 <div className="text-gray-800 font-semibold">
-                                    <p>Temperature: {weatherInSelectedCity.temperature} °</p>
-                                    <p>Pressure: {weatherInSelectedCity.pressure} hPa</p>
-                                    <p>Condition: {weatherInSelectedCity.condition}</p>
+                                    <p>Temperature: {weatherInfo.temperature} °</p>
+                                    <p>Pressure: {weatherInfo.pressure} hPa</p>
+                                    <p>Condition: {weatherInfo.condition}</p>
                                 </div>
                                 <div className="text-gray-800 font-semibold">
-                                    <p>Precipitation: {weatherInSelectedCity.precipitation1h} mm</p>
-                                    <p>Wind Speed: {weatherInSelectedCity.windspeedms} m/s</p>
-                                    <p>Direction: {weatherInSelectedCity.windDirection}</p>
+                                    <p>Precipitation: {weatherInfo.precipitation1h} mm</p>
+                                    <p>Wind Speed: {weatherInfo.windspeedms} m/s</p>
+                                    <p>Direction: {weatherInfo.windDirection}</p>
                                 </div>
                             </div>
 

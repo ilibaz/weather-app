@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import {
     useQuery,
 } from '@tanstack/react-query'
@@ -20,11 +20,9 @@ interface CitiesContextProps {
     isLoading: boolean;
     error: Error | null;
     searchTerm: string;
-
     visibleCities: City[];
     addVisibleCity: (city: City) => void;
     removeVisibleCity: (city: City) => void;
-
     setSearchTerm: (term: string) => void;
     resetSearchTerm: () => void;
 }
@@ -42,26 +40,29 @@ export const useCities = () => {
 interface CitiesProviderProps {
     children: ReactNode;
 }
-
 export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredCities, setFilteredCities] = useState<City[]>([]);
     const [visibleCities, setVisibleCities] = useState<City[]>([]);
 
-    const addVisibleCity = (city: City) => {
+    const addVisibleCity = useCallback((city: City) => {
         setVisibleCities(prevVisibleCities => {
-            if (!prevVisibleCities.includes(city)) {
+            if (!prevVisibleCities.some(c => c.city === city.city)) {
                 return [...prevVisibleCities, city];
             }
             return prevVisibleCities;
         });
-    };
+    }, [setVisibleCities]);
 
-    const removeVisibleCity = (city: City) => {
+    const removeVisibleCity = useCallback((city: City) => {
         setVisibleCities(prevVisibleCities =>
             prevVisibleCities.filter(visibleCity => visibleCity.city !== city.city)
         );
-    };
+    }, [setVisibleCities]);
+
+    const resetSearchTerm = useCallback(() => {
+        setSearchTerm('');
+    }, [setSearchTerm]);
 
     const { isLoading, error, data: cities } = useQuery<City[]>({
         queryKey: ['cities'],
@@ -69,21 +70,25 @@ export const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
             fetch('http://localhost:3001/api/cities').then((res) =>
                 res.json(),
             ),
-    })
+    });
 
     useEffect(() => {
-        if (searchTerm && cities) {
-            setFilteredCities(cities.filter(city =>
-                city.city.toLowerCase().includes(searchTerm.toLowerCase())
-            ));
-        } else {
-            setFilteredCities(cities || []);
+        if (error) {
+            console.error('Error fetching cities:', error);
         }
-    }, [cities, searchTerm]);
+    }, [error]);
 
-    const resetSearchTerm = () => {
-        setSearchTerm('');
-    }
+    useEffect(() => {
+        if (!isLoading && cities) {
+            if (searchTerm) {
+                setFilteredCities(cities.filter(city =>
+                    city.city.toLowerCase().includes(searchTerm.toLowerCase())
+                ));
+            } else {
+                setFilteredCities(cities);
+            }
+        }
+    }, [cities, isLoading, searchTerm]);
 
     return (
         <CitiesContext.Provider
