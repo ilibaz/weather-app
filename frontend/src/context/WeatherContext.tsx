@@ -15,7 +15,7 @@ import {
 } from '../utils/Metolib';
 
 const WEATHER_FETCH_INTERVAL = 15 * 60 * 1000; // 15 min
-const DEBOUNCE_DELAY = 500; // 1 sec
+const FETCH_DEBOUNCE_DELAY = 500; // 1 sec
 
 export type WeatherDescription = 'rain' | 'sunny' | 'windy' | 'cloudy';
 export type WindDirrection =
@@ -74,7 +74,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({
   );
   const debouncedVisibleCities = useDebounce<City[]>(
     visibleCities,
-    DEBOUNCE_DELAY,
+    FETCH_DEBOUNCE_DELAY,
   );
 
   const updateCachedWeather = useCallback(

@@ -85,10 +85,12 @@ function CityCard({ city }: CityCardProps) {
             <span className="text-gray-800 text-xl font-bold pr-2">
               {city.city}
             </span>
-            <span className="text-gray-800 font-semibold text-sm pr-4">
-              {' '}
+            <span className="text-gray-800 font-semibold text-sm pr-2">
               | {city.admin_name}
             </span>
+            {weatherInfo && <span className="text-gray-800 font-semibold text-sm pr-2">
+              | {weatherInfo.temperature} °
+            </span>}
             {isLoading && <SmallLoadingSpinner />}
           </div>
 

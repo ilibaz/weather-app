@@ -1,17 +1,12 @@
-
-
-- how to set min-width with tailwind to 320px
+- how to set static min-width with tailwindcss to 320px
 
 <div className="min-w-[320px]">
   {/* Your content here */}
 </div>
 
-
-
 - why this doesn't work? from-[#61aaf8] to-[#4a8ee6]
 
 To create a gradient background using Tailwind CSS, you need to use the bg-gradient-to class along with the from-[color] and to-[color] classes. 
-
 
 - in tailwind can I have something like this to change flex orientation : flex-column md-flex-row
 
@@ -19,6 +14,8 @@ To create a gradient background using Tailwind CSS, you need to use the bg-gradi
   <!-- Content here -->
 </div>
 
+- converting a ton of pure SVG code to JSX components
 
-- converting a ton of pure SVG code to JSX
+- some help with tailwindcss classes
 
+- debugging my dockerfile problems
