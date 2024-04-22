@@ -54,7 +54,7 @@ export function FetchMetolibWeather(cities: string[]): Promise<any> {
         reject(errors);
       } else {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const parsedData = parseWeatherData((data as any).locations);
+        const parsedData = parseWeatherData((data as any).locations, cities);
         resolve(parsedData);
       }
     }
@@ -88,7 +88,7 @@ export function FetchMetolibWeather(cities: string[]): Promise<any> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseWeatherData(data: any[]) {
+function parseWeatherData(data: any[], cities: string[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result: any = {};
 
@@ -97,7 +97,9 @@ function parseWeatherData(data: any[]) {
     const weatherData = item.data;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parsedData: any = {};
+    const parsedData: any = {
+      error: false,
+    };
     Object.keys(weatherData).forEach(key => {
       const property = weatherData[key];
       // 2 time-value pairs always there, the second one is the most recent
@@ -113,6 +115,23 @@ function parseWeatherData(data: any[]) {
     });
 
     result[name] = parsedData;
+  });
+
+  cities.forEach(city => {
+    if (result[city] === undefined) {
+      result[city] = {
+        error: true,
+        timestamp: new Date(),
+        temperature: 0,
+        windspeedms: 0,
+        windDirection: 'north',
+        precipitation1h: 0,
+        totalCloudCover: 0,
+        pressure: 0,
+        humidity: 0,
+        condition: 'sunny',
+      };
+    }
   });
 
   return result;

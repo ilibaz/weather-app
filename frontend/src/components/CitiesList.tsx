@@ -6,8 +6,8 @@ function CitiesList() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex justify-center items-center p-4">
-        Fetching cities...
+      <div className="min-h-screen flex justify-center items-center p-4 text-xl animate-pulse">
+        <p>Fetching cities list...</p>
       </div>
     );
   }

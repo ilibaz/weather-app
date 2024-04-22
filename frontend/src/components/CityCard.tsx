@@ -4,7 +4,7 @@ import { City, useCities } from '../context/CitiesContext';
 import { WeatherDescription, useWeather } from '../context/WeatherContext';
 import useIsVisible from '../hooks/useIsVisible';
 import BackgroundStyler from '../utils/BackgroundStyler';
-import { LoadingSpinner, SkeletonLoader } from '../assets/Helpers';
+import { SmallLoadingSpinner, SkeletonLoader } from '../assets/Helpers';
 
 interface CityCardProps {
   city: City;
@@ -23,16 +23,23 @@ const weatherSVGs: WeatherSVGMap = {
 
 function CityCard({ city }: CityCardProps) {
   const { readWeatherForCity, isWeatherLoadingForCity } = useWeather();
-  const { searchTerm, addVisibleCity, removeVisibleCity } = useCities();
+  const { filteredCities, searchTerm, addVisibleCity, removeVisibleCity } = useCities();
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const deferredSearchTerm = useDeferredValue(searchTerm);
   const { ref, isVisible } = useIsVisible<HTMLDivElement>(deferredSearchTerm);
 
-  const weatherInfo = readWeatherForCity(city.city);
   const isLoading = useMemo(() => {
     return isWeatherLoadingForCity(city);
   }, [city, isWeatherLoadingForCity]);
+
+  const weatherInfo = useMemo(() => {
+    if (isVisible) {
+      return readWeatherForCity(city.city);
+    } else {
+      return undefined;
+    }
+  }, [city, isVisible, readWeatherForCity]);
 
   const handleCardClick = () => {
     setIsSelected(!isSelected);
@@ -51,6 +58,16 @@ function CityCard({ city }: CityCardProps) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, city, deferredSearchTerm]);
+
+  useEffect(() => {
+    if (isVisible && filteredCities.length === 1) {
+      setIsSelected(true);
+    }
+
+    return () => {
+      setIsSelected(false);
+    };
+  }, [filteredCities, isVisible]);
 
   return (
     <BackgroundStyler weather={weatherInfo}>
@@ -72,11 +89,11 @@ function CityCard({ city }: CityCardProps) {
               {' '}
               | {city.admin_name}
             </span>
-            {isLoading && <LoadingSpinner />}
+            {isLoading && <SmallLoadingSpinner />}
           </div>
 
           {isSelected &&
-            (!isLoading && weatherInfo ? (
+            (!isLoading && weatherInfo && !weatherInfo.error ? (
               <div className="flex flex-col">
                 <div className="w-full flex flex-row mb-4">
                   <div className="w-full flex md:w-1/2 mb-4 md:mb-0">
@@ -110,7 +127,7 @@ function CityCard({ city }: CityCardProps) {
                 </div>
               </div>
             ) : (
-              <SkeletonLoader />
+              weatherInfo ? (weatherInfo.error ? <p className='text-red-700'>Error while fetching weather for this city</p> : <></>) : <SkeletonLoader />
             ))}
         </div>
       </div>

@@ -28,8 +28,8 @@ export type WindDirrection =
   | 'west'
   | 'north-west';
 export type WeatherInfo = {
+  error: boolean;
   timestamp: number;
-  localPlaceKey: string;
   temperature: number;
   windspeedms: number;
   windDirection: WindDirrection;
@@ -44,7 +44,7 @@ export type WeatherCache = { [key: string]: WeatherInfo };
 
 interface WeatherContextProps {
   isLoading: boolean;
-  readWeatherForCity: (localPlaceKey: string) => WeatherInfo | undefined;
+  readWeatherForCity: (city: string) => WeatherInfo | undefined;
   isWeatherLoadingForCity: (city: City) => boolean;
 }
 

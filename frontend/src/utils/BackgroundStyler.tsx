@@ -14,7 +14,7 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({
   const [additionalEffect, setAdditionalEffect] = useState<string>('');
 
   useEffect(() => {
-    if (weather) {
+    if (weather !== undefined) {
       if (weather.condition === 'cloudy') {
         setBackgroundGradient('from-[#97d0f8] to-[#69bbf6]');
         setAdditionalEffect(
@@ -35,6 +35,11 @@ const BackgroundStyler: React.FC<BackgroundStylerProps> = ({
         setAdditionalEffect(
           'radial-gradient(circle at left top, rgb(250, 250, 250) 1%, transparent 30%)',
         );
+      }
+
+      if (weather.error) {
+        setBackgroundGradient('bg-gray-500');
+        setAdditionalEffect('none');
       }
     } else {
       // default
