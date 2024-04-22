@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { City, useCities } from './CitiesContext';
 import { useQuery } from '@tanstack/react-query';
-import { useDebounce } from '@uidotdev/usehooks';
+import { useDebounce, useLocalStorage } from '@uidotdev/usehooks';
 import { FetchMetolibWeather, degreesToDirection, predictWeather } from '../utils/Metolib';
 
 const WEATHER_FETCH_INTERVAL = 15 * 60 * 1000; // 15 min
@@ -46,7 +46,7 @@ interface WeatherProviderProps {
 
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
     const { visibleCities } = useCities();
-    const [cachedWeather, setCachedWeather] = useState<WeatherCache>();
+    const [cachedWeather, setCachedWeather] = useLocalStorage<WeatherCache>('cachedWeather', {});
     const debouncedVisibleCities = useDebounce<City[]>(visibleCities, DEBOUNCE_DELAY);
 
     const updateCachedWeather = useCallback((weatherData: WeatherCache) => {
