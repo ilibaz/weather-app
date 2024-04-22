@@ -1,11 +1,8 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import CitiesList from './components/CitiesList'
-import CitySearch from './components/CitySearch'
-import { WeatherProvider } from './context/WeatherContext'
-import { CitiesProvider } from './context/CitiesContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import CitiesList from './components/CitiesList';
+import CitySearch from './components/CitySearch';
+import { WeatherProvider } from './context/WeatherContext';
+import { CitiesProvider } from './context/CitiesContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,11 +10,9 @@ const queryClient = new QueryClient({
       staleTime: Infinity,
     },
   },
-})
+});
 
 function App() {
-
-
   return (
     <QueryClientProvider client={queryClient}>
       <CitiesProvider>
@@ -27,7 +22,7 @@ function App() {
         </WeatherProvider>
       </CitiesProvider>
     </QueryClientProvider>
-  )
+  );
 }
 
-export default App
+export default App;

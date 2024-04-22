@@ -14,12 +14,12 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    "@typescript-eslint/ban-ts-comment": [
-      "error",
+    '@typescript-eslint/ban-ts-comment': [
+      'error',
       {
-        "ts-ignore": "allow-with-description",
-        "ts-nocheck": "allow-with-description"
-      }
-    ]
+        'ts-ignore': 'allow-with-description',
+        'ts-nocheck': 'allow-with-description',
+      },
+    ],
   },
-}
+};
