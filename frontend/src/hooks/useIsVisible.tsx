@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-function useIsVisible<T extends HTMLElement = HTMLElement>() {
+function useIsVisible<T extends HTMLElement = HTMLElement>(signal?: string) {
     const ref = useRef<T>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -32,6 +32,11 @@ function useIsVisible<T extends HTMLElement = HTMLElement>() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [checkVisibility]);
+
+    useEffect(() => {
+        // Re-check visibility when the signal changes
+        checkVisibility();
+    }, [signal, checkVisibility]);
 
     return { ref, isVisible };
 }

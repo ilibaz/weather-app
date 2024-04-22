@@ -30,8 +30,8 @@ const weatherSVGs: WeatherSVGMap = {
 
 function CityCard({ city }: CityCardProps) {
     const { isLoading, readWeatherForLocalPlace } = useWeather();
-    const { addVisibleCity, removeVisibleCity } = useCities();
-    const { ref, isVisible } = useIsVisible<HTMLDivElement>();
+    const { searchTerm, addVisibleCity, removeVisibleCity } = useCities();
+    const { ref, isVisible } = useIsVisible<HTMLDivElement>(searchTerm);
     const [isSelected, setIsSelected] = useState<boolean>(false);
 
     const weatherInSelectedCity = readWeatherForLocalPlace(city.city);
@@ -47,7 +47,7 @@ function CityCard({ city }: CityCardProps) {
             removeVisibleCity(city);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isVisible, city]);
+    }, [isVisible, city, searchTerm]);
 
     return (
         <BackgroundStyler weather={weatherInSelectedCity}>
