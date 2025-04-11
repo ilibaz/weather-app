@@ -29,8 +29,7 @@ however if there is only one city left - it will expand that city to show detail
 
 - simplistic icons for weather and compass, didn't have time to improve the looks
 
-- not 100% clean code, quite a big project in general, for this reason if you see something stupid feel free to ask
-me why did I do that
+- not 100% clean code, quite a big project for the short time given
 
 
 
