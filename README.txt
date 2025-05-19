@@ -1,11 +1,12 @@
+A test fullstack assigmnent to display weather data for cities in Finland.
+XML based public API is used.
+
 Things that slowed me down:
 
 - API is serving only XML
 - the JS library (which is already unsupported for a few years) is untyped
 - API does not return errors if it's not finding certain city at all cases
 - figuring out how to host both BE and FE in one docker container
-
-
 
 Comments:
 
